@@ -4,6 +4,7 @@ from game.level import Level
 from game.entity.player import Player  #Player sera instanciado aqui, assim
 from game.entity.enemy import Enemy
 
+
 class Control():
     def __init__(self):
 
@@ -26,6 +27,16 @@ class Control():
         self.__FPS = 60
         self.display = pygame.display.set_mode([1024, 768])
         self.background = pygame.image.load('versao_final/game/image/background/background1.png')
+        
+        self.fonte = pygame.font.Font(None, 36)
+        self.branco = (255, 255, 255)
+        
+        self.distancia = 0
+        
+        text = self.fonte.render("Distancia :" + str(self.distancia), True, (0, 255, 0), (0, 0, 0))
+        textRect = text.get_rect()
+        textRect.center = (100, 20)
+
 
         
 
@@ -46,8 +57,13 @@ class Control():
             self.__clock.tick(self.__FPS)  
             #self.display.fill((0,0,0))
             self.display.blit(self.background, (0, 0))
+            self.distancia = self.distancia + 1
+            text = self.fonte.render("TEMPO : " + str(self.distancia), True, (0, 255, 0), (0, 0, 0))
+           
+            
             #display.blit(ImageFundo, (0, 0))
             self.__level.run()
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.__gameLoop = False
@@ -131,7 +147,7 @@ class Control():
                     
 
                 
-
+            self.display.blit(text, (275, 350))
             self.colision()
             self.__player.update()
             pygame.display.update()
